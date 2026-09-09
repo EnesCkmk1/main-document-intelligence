@@ -9,7 +9,7 @@ Danish document analysis app (Dokument-AI).
 Upload a document and have it translated from legalese into something you actually understand.
 
 [![Live demo](https://img.shields.io/badge/Live_demo-dokument--ai-1F6F5C?logo=vercel&logoColor=white)](https://dokument-ai-neon.vercel.app)
-![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?logo=tailwindcss&logoColor=white)
 ![Claude](https://img.shields.io/badge/Claude-Anthropic-D97757)
@@ -80,12 +80,14 @@ explanation, important points, dates and warnings.
 
 ## Tech stack
 
-- **Next.js 14** (App Router) + **TypeScript**
+- **Next.js 16** (App Router) + **React 19** + **TypeScript**
 - **Tailwind CSS** - responsive, mobile-friendly design
 - **Claude** (`claude-sonnet-4-6`) via [`@anthropic-ai/sdk`](https://www.npmjs.com/package/@anthropic-ai/sdk)
 - **mammoth** for extracting text from Word documents
 
 ## Getting started
+
+Requires **Node.js 22.12 or later**.
 
 **1. Install dependencies**
 
@@ -160,7 +162,9 @@ npm run build
 npm run eval -- path/to/predictions.json
 ```
 
-CI runs type checking, offline tests and a production build, and uploads JUnit results. Provider responses are mocked in tests, so CI needs no API key and makes no claim about real model accuracy.
+CI runs lint, dependency auditing, type checking, 33 offline tests and a production build, and uploads JUnit results. Provider responses are mocked in tests, so CI needs no API key and makes no claim about real model accuracy.
+
+Format tests exercise real DOCX text extraction, empty/corrupt Word files and PDF/image byte transport. They do not measure OCR accuracy or live Claude quality.
 
 See [evaluation protocol and synthetic dataset](evals/README.md) for deadline, warning and injection cases and the prediction-report format. Missing predictions fail the evaluation gate. Generated reports stay local by default.
 
@@ -168,6 +172,6 @@ See [evaluation protocol and synthetic dataset](evals/README.md) for deadline, w
 
 The public demo returns a fixed example, not an analysis of the upload. The live flow sends document content to Anthropic. Only use documents you are authorized to share. Authentication, rate limiting, durable background jobs and human review are not implemented. File-type routing uses MIME/extension checks, not binary format verification. The upload size check happens after multipart parsing, so ingress limits are needed for public production use.
 
-Dependency review during this update found high/critical advisories remaining in the Next.js 14 dependency tree. The audit proposes a major Next.js upgrade; this needs a separate migration and deployment verification. This repository should not be described as production-hardened.
+The Next.js 16 / React 19 migration passed local checks. The dependency audit reported zero known vulnerabilities on 2026-09-09; CI rejects high/critical advisories. This is a point-in-time dependency check, not a production security certification. Hosting deployment verification remains separate.
 
 The repository can be renamed to `document-intelligence` in GitHub settings. After renaming, update your local remote and confirm the hosting integration.

@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "eval": "tsx scripts/evaluate.ts"
@@ -16,19 +16,25 @@
     "@anthropic-ai/sdk": "^0.104.1",
     "ajv": "^8.17.1",
     "mammoth": "^1.12.0",
-    "next": "^14.2.35",
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "next": "^16.3.4",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
     "@types/node": "^22.20.1",
-    "@types/react": "18.3.3",
-    "@types/react-dom": "18.3.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
     "autoprefixer": "10.4.19",
-    "postcss": "8.4.39",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.4",
+    "jszip": "^3.10.2",
+    "postcss": "^8.5.28",
     "tailwindcss": "3.4.6",
     "tsx": "^4.23.13",
     "typescript": "5.5.3",
     "vitest": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }
