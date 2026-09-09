@@ -29,3 +29,7 @@ next-env.d.ts
 
 # vercel
 .vercel
+
+/reports/
+/test-results.xml
+/audit-local.json

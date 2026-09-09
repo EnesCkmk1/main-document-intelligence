@@ -1,8 +1,10 @@
 <div align="center">
 
-# 📄 Dokument-AI
+# Document Intelligence
 
-**Understand contracts, offers, insurance papers and letters — explained in plain Danish.**
+Danish document analysis app (Dokument-AI).
+
+**Understand contracts, offers, insurance papers and letters - explained in plain Danish.**
 
 Upload a document and have it translated from legalese into something you actually understand.
 
@@ -15,7 +17,7 @@ Upload a document and have it translated from legalese into something you actual
 
 </div>
 
-> **Note:** The app's user interface and analysis output are in **Danish** — it's a tool for understanding Danish documents. This README is in English for international readers.
+> **Note:** The app's user interface and analysis output are in **Danish** - it's a tool for understanding Danish documents. This README is in English for international readers.
 
 ---
 
@@ -35,7 +37,7 @@ Upload a document, get a plain-Danish explanation, important points, deadlines a
 
 You upload a document, and the app:
 
-- 🗣️ **explains** it in language you understand — no legal jargon
+- 🗣️ **explains** it in language you understand - no legal jargon
 - ⭐ **highlights** the most important points
 - 📅 **finds** deadlines, dates and due dates
 - 📝 **writes** a short summary
@@ -49,7 +51,7 @@ Useful for individuals and businesses alike.
 
 Without an API key the app runs in **demo mode**: it shows a fixed example analysis
 instead of calling Claude. This lets the project be deployed and tried publicly
-without a real key — upload any file and see what the result looks like.
+without a real key - upload any file and see what the result looks like.
 
 Set `ANTHROPIC_API_KEY` (see below) to analyze real documents.
 
@@ -73,13 +75,13 @@ Max file size: **20 MB**.
 
 The analysis runs **server-side** in a Next.js route handler (`app/api/analyze`), so
 the API key never reaches the browser. Claude responds in a fixed JSON schema
-(structured outputs), so the UI always gets data in the same shape — summary,
+(structured outputs), so the UI always gets data in the same shape - summary,
 explanation, important points, dates and warnings.
 
 ## Tech stack
 
 - **Next.js 14** (App Router) + **TypeScript**
-- **Tailwind CSS** — responsive, mobile-friendly design
+- **Tailwind CSS** - responsive, mobile-friendly design
 - **Claude** (`claude-sonnet-4-6`) via [`@anthropic-ai/sdk`](https://www.npmjs.com/package/@anthropic-ai/sdk)
 - **mammoth** for extracting text from Word documents
 
@@ -91,7 +93,7 @@ explanation, important points, dates and warnings.
 npm install
 ```
 
-**2. Create `.env.local` and add your Anthropic key** *(optional — skip it to run in demo mode)*
+**2. Create `.env.local` and add your Anthropic key** *(optional - skip it to run in demo mode)*
 
 ```bash
 cp .env.local.example .env.local
@@ -102,7 +104,7 @@ cp .env.local.example .env.local
 ANTHROPIC_API_KEY=sk-ant-...
 ```
 
-> Your key is **never** committed — `.env.local` is in `.gitignore`.
+> Your key is **never** committed - `.env.local` is in `.gitignore`.
 > Get a key at [console.anthropic.com](https://console.anthropic.com/).
 
 **3. Start the dev server**
@@ -145,3 +147,27 @@ docs/
 ## License
 
 Released under the [MIT License](LICENSE).
+
+## Engineering and evaluation
+
+The API validates model output at runtime using the same JSON Schema supplied to Claude. Invalid JSON, missing fields and incorrect field types return HTTP 502. Provider calls have a 45-second timeout and automatic retries disabled. Documents are treated as untrusted input in the system prompt; this instruction is not a complete prompt-injection defense.
+
+```bash
+npm ci
+npm run typecheck
+npm test
+npm run build
+npm run eval -- path/to/predictions.json
+```
+
+CI runs type checking, offline tests and a production build, and uploads JUnit results. Provider responses are mocked in tests, so CI needs no API key and makes no claim about real model accuracy.
+
+See [evaluation protocol and synthetic dataset](evals/README.md) for deadline, warning and injection cases and the prediction-report format. Missing predictions fail the evaluation gate. Generated reports stay local by default.
+
+## Operational limits
+
+The public demo returns a fixed example, not an analysis of the upload. The live flow sends document content to Anthropic. Only use documents you are authorized to share. Authentication, rate limiting, durable background jobs and human review are not implemented. File-type routing uses MIME/extension checks, not binary format verification. The upload size check happens after multipart parsing, so ingress limits are needed for public production use.
+
+Dependency review during this update found high/critical advisories remaining in the Next.js 14 dependency tree. The audit proposes a major Next.js upgrade; this needs a separate migration and deployment verification. This repository should not be described as production-hardened.
+
+The repository can be renamed to `document-intelligence` in GitHub settings. After renaming, update your local remote and confirm the hosting integration.
