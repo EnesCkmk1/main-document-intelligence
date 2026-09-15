@@ -80,10 +80,9 @@ explanation, important points, dates and warnings.
 
 ## Tech stack
 
-- **Next.js 16** (App Router) + **React 19** + **TypeScript**
-- **Tailwind CSS** - responsive, mobile-friendly design
-- **Claude** (`claude-sonnet-4-6`) via [`@anthropic-ai/sdk`](https://www.npmjs.com/package/@anthropic-ai/sdk)
-- **mammoth** for extracting text from Word documents
+<img src="https://skillicons.dev/icons?i=ts,nextjs,react,tailwind,nodejs,vercel&perline=6" alt="TypeScript, Next.js, React, Tailwind CSS, Node.js and Vercel">
+
+Claude (`claude-sonnet-4-6`) powers the document analysis through [`@anthropic-ai/sdk`](https://www.npmjs.com/package/@anthropic-ai/sdk), while [`mammoth`](https://www.npmjs.com/package/mammoth) extracts text from Word documents.
 
 ## Getting started
 
